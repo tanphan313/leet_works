@@ -7,7 +7,7 @@ class TreeNode
   end
 end
 
-# Using recursion
+# Using recursion, root-left-right
 def preorder_traversal(root)
   result = []
 
@@ -36,7 +36,7 @@ def preorder_traversal_iteration root
   result
 end
 
-# Using recursion
+# Using recursion, left-root-right
 def in_order_traversal(root)
   result = []
 
@@ -52,41 +52,59 @@ def in_order_traversal_iteration root
   result = []
   stack = []
 
-  stack.push root
   current_node = root
 
   while !current_node.nil? || stack != [] do
-
+    # Push all left node to stack
     while current_node != nil do
       stack.push current_node
       current_node = current_node.left
     end
 
+    # Get the last node of stack
     current_node = stack.pop
     result.push current_node.val
+
+    # Keep going with the right node
     current_node = current_node.right
   end
 
   result
 end
 
-# Using recursion
-def post_order_traversal(root)
+# Using recursion, left-right-root
+def postorder_traversal(root)
+  return [] unless root
   result = []
 
-  if root.class == TreeNode
-    result << post_order_traversal(root.left) unless root.left.nil?
-    result << post_order_traversal(root.right) unless root.right.nil?
-    result << root.val
-  else
-    result << root unless root.nil?
-  end
+  result << postorder_traversal(root.left) unless root.left.nil?
+  result << postorder_traversal(root.right) unless root.right.nil?
+  result << root.val
 
   result.flatten
 end
 
+def postorder_traversal_iteration root
+  result = []
+  stack = []
+
+  stack.push root
+
+  while stack != [] do
+    # Get the last node of stack
+    current_node = stack.pop
+    # Push to the beginning of result
+    result.unshift current_node.val
+
+    stack.push current_node.left unless current_node.left.nil?
+    stack.push current_node.right unless current_node.right.nil?
+  end
+
+  result
+end
+
 # Using iteration
-def level_order(root)
+def level_order_iteration(root)
   return [] if root.nil?
 
   hierarchy_node = []
@@ -112,3 +130,20 @@ def level_order(root)
 
   hierarchy_node
 end
+
+def level_order root
+  return [] if root.nil?
+
+  result = []
+
+  result
+end
+
+node1 = TreeNode.new(1)
+node2 = TreeNode.new(2)
+node3 = TreeNode.new(3)
+
+node1.right = node2
+node2.left = node3
+
+puts postorder_traversal_iteration node1
