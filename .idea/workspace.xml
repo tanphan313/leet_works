@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="dad263d4-411e-4df1-8a64-333102a1e5f4" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/traverse_a_tree.rb" beforeDir="false" afterPath="$PROJECT_DIR$/traverse_a_tree.rb" afterDir="false" />
     </list>
@@ -76,7 +75,8 @@
       <updated>1577367174429</updated>
       <workItem from="1577367177591" duration="5573000" />
       <workItem from="1577377224262" duration="2167000" />
-      <workItem from="1577423770633" duration="4278000" />
+      <workItem from="1577423770633" duration="4637000" />
+      <workItem from="1577517463877" duration="1403000" />
     </task>
     <servers />
   </component>

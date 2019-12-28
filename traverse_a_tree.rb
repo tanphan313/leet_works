@@ -132,12 +132,22 @@ def level_order_iteration(root)
 end
 
 def level_order root
-  return [] if root.nil?
-
+  return [] unless root
   result = []
+
+  level(root,0, result)
 
   result
 end
+
+def level root, level, result
+  result[level] ||= []
+  result[level] << root.val
+
+  level(root.left, level + 1, result) if root.left
+  level(root.right, level + 1, result) if root.right
+end
+
 
 node1 = TreeNode.new(1)
 node2 = TreeNode.new(2)
