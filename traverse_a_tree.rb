@@ -148,12 +148,65 @@ def level root, level, result
   level(root.right, level + 1, result) if root.right
 end
 
+# Max depth bottom down
+#def max_depth root
+#  return 0 if root.nil?
+#  depth = 1
+#
+#  find_max_depth root, depth
+#end
+#
+#def find_max_depth root, depth
+#  return depth if root == nil
+#
+#  left_depth = find_max_depth(root.left, depth + 1) unless root.left.nil?
+#  right_depth = find_max_depth(root.right, depth + 1) unless root.right.nil?
+#
+#  left_depth > right_depth ? left_depth : right_depth
+#end
+# Max depth bottom down
+
+def max_depth root
+  return 0 if root == nil
+
+  [max_depth(root.left), max_depth(root.right)].max + 1
+end
+
+# @param {TreeNode} root
+# @return {Boolean}
+def is_symmetric root
+  return true if root.nil?
+  is_mirror?(root.left, root.right)
+end
+
+def is_mirror? node1, node2
+  return node2 == node1 if node1.nil? || node2.nil?
+
+  return false if node1.val != node2.val
+
+  is_mirror?(node1.left, node2.right) && is_mirror?(node1.right, node2.left)
+end
+
+# @param {TreeNode} root
+# @param {Integer} sum
+# @return {Boolean}
+def has_path_sum root, sum
+  return false if root.nil?
+  return true if root.left.nil? && root.right.nil? && root.val == sum
+
+  has_path_sum(root.left, sum - root.val) || has_path_sum(root.right, sum - root.val)
+end
 
 node1 = TreeNode.new(1)
 node2 = TreeNode.new(2)
-node3 = TreeNode.new(3)
+node3 = TreeNode.new(2)
+node4 = TreeNode.new(3)
+node5 = TreeNode.new(3)
+
 
 node1.right = node2
-node2.left = node3
+node1.left = node3
+node2.right = node4
+node3.left = node5
 
-puts postorder_traversal_iteration node1
+puts has_path_sum node1, 7
