@@ -104,6 +104,7 @@ def postorder_traversal_iteration root
 end
 
 # Using iteration
+# BFS
 def level_order_iteration(root)
   return [] if root.nil?
 
@@ -131,6 +132,7 @@ def level_order_iteration(root)
   hierarchy_node
 end
 
+# BFS
 def level_order root
   return [] unless root
   result = []
@@ -197,16 +199,39 @@ def has_path_sum root, sum
   has_path_sum(root.left, sum - root.val) || has_path_sum(root.right, sum - root.val)
 end
 
-node1 = TreeNode.new(1)
-node2 = TreeNode.new(2)
-node3 = TreeNode.new(2)
-node4 = TreeNode.new(3)
-node5 = TreeNode.new(3)
 
+# postorder = [9,15,7,20,3] left-right-root, so, root will be the last one
+# inorder = [9,3,15,20,7] left-root-right, if we find a root, the left part will be in the left part of tree, same in the right
+# Tree = [3,9,20,null,null,15,7] (root then left-right, then left-right of left, then left-right of right, then so on)
 
-node1.right = node2
-node1.left = node3
-node2.right = node4
-node3.left = node5
+# @param {Integer[]} inorder
+# @param {Integer[]} postorder
+# @return {TreeNode}
+def build_tree inorder, postorder
+  return unless inorder != [] && postorder != []
 
-puts has_path_sum node1, 7
+  root = find_root postorder, inorder
+  inorder_index = inorder.index(root.val)
+
+  root.left = build_tree inorder[0...inorder_index], postorder
+  root.right = build_tree inorder[(inorder_index+1)..-1], postorder
+
+  root
+end
+
+def find_root postorder, inorder
+  index = postorder.size - 1
+
+  (0..(postorder.size - 1)).reverse_each do |idx|
+    if inorder.include?(postorder[idx])
+      index = idx
+      break
+    end
+  end
+  TreeNode.new postorder.delete_at index
+end
+
+postorder = [9,15,7,20,3]
+inorder = [9,3,15,20,7]
+
+print level_order (build_tree inorder, postorder)
