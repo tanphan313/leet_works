@@ -201,7 +201,10 @@ end
 
 
 # postorder = [9,15,7,20,3] left-right-root, so, root will be the last one
+# postorder = (left group) - (right group) - root
 # inorder = [9,3,15,20,7] left-root-right, if we find a root, the left part will be in the left part of tree, same in the right
+# inorder = (left group) - root - (right group)
+# So, the last el of postorder will be a root, the left and right group have the same elements with different order
 # Tree = [3,9,20,null,null,15,7] (root then left-right, then left-right of left, then left-right of right, then so on)
 
 # @param {Integer[]} inorder
@@ -210,11 +213,11 @@ end
 def build_tree inorder, postorder
   return unless inorder != [] && postorder != []
 
-  root = find_root postorder, inorder
+  root = TreeNode.new postorder.last
   inorder_index = inorder.index(root.val)
 
-  root.left = build_tree inorder[0...inorder_index], postorder
-  root.right = build_tree inorder[(inorder_index+1)..-1], postorder
+  root.left = build_tree inorder[0...inorder_index], postorder[0...inorder_index]
+  root.right = build_tree inorder[(inorder_index+1)..-1], postorder[inorder_index..-2]
 
   root
 end
@@ -234,4 +237,4 @@ end
 postorder = [9,15,7,20,3]
 inorder = [9,3,15,20,7]
 
-print level_order (build_tree inorder, postorder)
+print level_order build_tree inorder, postorder
