@@ -79,3 +79,94 @@ class Solution {
         }
     }
 }
+
+/*
+    Input: root = [1,2,3,4,5,null,7]
+    Output: [1,#,2,3,#,4,5,7,#]
+    Explanation: Given the above binary tree (Figure A),
+    your function should populate each next pointer to point to its next right node, just like in Figure B.
+    The serialized output is in level order as connected by the next pointers, with '#' signifying the end of each level.
+*/
+
+/*
+ @param {Node} root
+ @return {Node}
+*/
+class Solution {
+    /*
+    * Using recursion
+    * */
+    public Node connect(Node root) {
+        if(root == null)
+            return null;
+
+        if(root.left != null){
+            if(root.right != null){
+                root.left.next = root.right;
+            } else {
+                root.left.next = findNext(root.next);
+            }
+        }
+        if (root.right != null) {
+            root.right.next = findNext(root.next);
+        }
+
+        // Connect the right node first
+        connect(root.right);
+        connect(root.left);
+
+        return root;
+    }
+
+    public Node findNext(Node root) {
+        if(root == null)
+            return null;
+        if(root.left != null)
+            return root.left;
+        if(root.right != null)
+            return root.right;
+
+        return findNext(root.next);
+    }
+}
+
+/*
+ @param {Node} root
+ @return {Node}
+ Solution random tree
+*/
+class Solution {
+    /*
+    * Using recursion
+    * */
+    public Node connect(Node root) {
+        if(root == null)
+            return null;
+
+        // Connect all nextRight node before moving to the next level
+        if(root.next != null)
+            connect(root.next);
+
+        if(root.left != null){
+            if(root.right != null){
+                root.left.next = root.right;
+                root.right.next = findNext(root.next);
+            } else {
+                root.left.next = findNext(root.next);
+            }
+        }
+
+        return root;
+    }
+
+    public Node findNext(Node root) {
+        if(root == null)
+            return null;
+        if(root.left != null)
+            return root.left;
+        if(root.right != null)
+            return root.right;
+
+        return findNext(root.next);
+    }
+}
