@@ -91,6 +91,7 @@ class Solution {
 /*
  @param {Node} root
  @return {Node}
+ Solution binary tree
 */
 class Solution {
     /*
@@ -154,6 +155,13 @@ class Solution {
             } else {
                 root.left.next = findNext(root.next);
             }
+
+            connect(root.left);
+        }
+
+        if(root.right != null){
+            root.right.next = findNext(root.next);
+            connect(root.right);
         }
 
         return root;

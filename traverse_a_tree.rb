@@ -8,7 +8,7 @@ class TreeNode
 end
 
 # Using recursion, root-left-right
-def preorder_traversal(root)
+def preorder_traversal root
   result = []
 
   result << root.val
@@ -259,9 +259,103 @@ def build_tree2 preorder, inorder
 end
 
 
-preorder = [3,9,20,15,7]
-inorder = [9,3,15,20,7]
+# Given a binary tree, find the lowest common ancestor (LCA) of two given nodes in the tree.
+#
+# According to the definition of LCA on Wikipedia: “The lowest common ancestor is defined between two nodes p and q as the
+# lowest node in T that has both p and q as descendants (where we allow a node to be a descendant of itself).”
+#
+# Ex:
+# Input: root = [3,5,1,6,2,0,8,null,null,7,4], p = 5, q = 1
+# Output: 3
+# Explanation: The LCA of nodes 5 and 1 is 3.
+#
+# All of the nodes' values will be unique.
+# p and q are different and both values will exist in the binary tree.
 
-r = build_tree2 preorder, inorder
+# @param {TreeNode} root
+# @param {TreeNode} p
+# @param {TreeNode} q
+# @return {TreeNode}
+def lowest_common_ancestor root, p, q
+  p_ancentors_chain = []
+  ancentors_chain(p_ancentors_chain, root, p)
+  q_ancentors_chain = []
+  ancentors_chain(q_ancentors_chain, root, q)
 
-print level_order r
+  (p_ancentors_chain & q_ancentors_chain).last
+end
+
+def ancentors_chain chain, root, target
+  # p doesn't exist in this path, reset chain
+  if root == nil
+    return
+  end
+
+  # Reach p, finish finding ancentors chain
+  if root.val == target.val
+    chain.unshift target
+    return true
+  end
+
+  # put root to result if left or right child of root can return true(means left or right path contain target)
+  if ancentors_chain(chain, root.left, target) || ancentors_chain(chain, root.right, target)
+    chain.unshift root
+    true
+  end
+end
+
+def lowest_common_ancestor2(root, p, q)
+  return p if find p, q
+  return q if find q, p
+
+  # If we can meet p and q when we start moving from root.left, that means p and q belong to left path of root
+  # Start finding from root.left
+  if find(root.left, p) && find(root.left, q)
+    lowest_common_ancestor root.left, p, q
+  # If we can meet p and q when we start moving from root.right, that means p and q belong to right path of root
+  # Start finding from root.right
+  elsif find(root.right, p) && find(root.right, q)
+    lowest_common_ancestor root.right, p, q
+  # can not find p or q from left and right path, root is the only ancestor
+  else
+    root
+  end
+end
+
+# Return true if, go from root, we can meet target
+def find root, target
+  if root
+    if (root == target)
+      return true
+    else
+      return find(root.left,target) || find(root.right,target)
+    end
+  else
+    false
+  end
+end
+
+node1 = TreeNode.new(3)
+node2 = TreeNode.new(5)
+node3 = TreeNode.new(1)
+node4 = TreeNode.new(6)
+node5 = TreeNode.new(2)
+node6 = TreeNode.new(0)
+node7 = TreeNode.new(8)
+node8 = TreeNode.new(7)
+node9 = TreeNode.new(4)
+
+node1.left = node2
+node1.right = node3
+
+node2.left = node4
+node2.right = node5
+
+node3.left = node6
+node3.right = node7
+
+node5.left = node8
+node5.right = node9
+
+puts "result: #{lowest_common_ancestor(node1, node2, node3).val}"
+
