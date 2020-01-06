@@ -91,7 +91,6 @@ class Solution {
 /*
  @param {Node} root
  @return {Node}
- Solution binary tree
 */
 class Solution {
     /*
@@ -134,7 +133,6 @@ class Solution {
 /*
  @param {Node} root
  @return {Node}
- Solution random tree
 */
 class Solution {
     /*
