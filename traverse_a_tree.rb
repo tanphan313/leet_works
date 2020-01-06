@@ -335,6 +335,31 @@ def find root, target
   end
 end
 
+# Serialization is the process of converting a data structure or object into a sequence of bits so that it can be stored in a file or memory buffer,
+# or transmitted across a network connection link to be reconstructed later in the same or another computer environment.
+#
+# Design an algorithm to serialize and deserialize a binary tree.
+# There is no restriction on how your serialization/deserialization algorithm should work.
+# You just need to ensure that a binary tree can be serialized to a string and this string can be deserialized to the original tree structure.
+#
+# Example output string: '[1,2,3,null,null,4,5]'
+
+# Encodes a tree to a single string.
+#
+# @param {TreeNode} root
+# @return {string}
+def serialize(root)
+
+end
+
+# Decodes your encoded data to tree.
+#
+# @param {string} data
+# @return {TreeNode}
+def deserialize(data)
+
+end
+
 node1 = TreeNode.new(3)
 node2 = TreeNode.new(5)
 node3 = TreeNode.new(1)
