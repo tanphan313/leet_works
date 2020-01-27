@@ -348,16 +348,29 @@ end
 #
 # @param {TreeNode} root
 # @return {string}
-def serialize(root)
-
+#
+# using pre order root, left, right
+def serialize root
+  return "x" if root == nil
+  root.val.to_s + "," + serialize(root.left) + "," + serialize(root.right)
 end
 
 # Decodes your encoded data to tree.
 #
 # @param {string} data
 # @return {TreeNode}
-def deserialize(data)
+def deserialize data
+  nodes_left = data.split(",")
+  deserialize_helper nodes_left
+end
 
+def deserialize_helper nodes_left
+  value_for_node = nodes_left.shift
+  return nil if value_for_node == "x"
+  new_node = TreeNode.new(value_for_node.to_i)
+  new_node.left = deserialize_helper nodes_left
+  new_node.right = deserialize_helper nodes_left
+  new_node
 end
 
 node1 = TreeNode.new(3)
@@ -365,10 +378,6 @@ node2 = TreeNode.new(5)
 node3 = TreeNode.new(1)
 node4 = TreeNode.new(6)
 node5 = TreeNode.new(2)
-node6 = TreeNode.new(0)
-node7 = TreeNode.new(8)
-node8 = TreeNode.new(7)
-node9 = TreeNode.new(4)
 
 node1.left = node2
 node1.right = node3
@@ -376,11 +385,5 @@ node1.right = node3
 node2.left = node4
 node2.right = node5
 
-node3.left = node6
-node3.right = node7
-
-node5.left = node8
-node5.right = node9
-
-puts "result: #{lowest_common_ancestor(node1, node2, node3).val}"
+puts "result: #{serialize(node1)}"
 
