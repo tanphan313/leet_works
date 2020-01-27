@@ -236,8 +236,8 @@ def find_root postorder, inorder
 end
 
 
-# preorder = [3,9,20,15,7] root-left-right, so, root will be the last one
-# preorder = (left group) - (right group) - root
+# preorder = [3,9,20,15,7] root-left-right, so, root will be the first one
+# preorder = root - (left group) - (right group)
 # inorder = [9,3,15,20,7] left-root-right, if we find a root, the left part will be in the left part of tree, same in the right
 # inorder = (left group) - root - (right group)
 # So, the last el of postorder will be a root, the left and right group have the same elements with different order
