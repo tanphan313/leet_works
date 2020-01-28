@@ -351,8 +351,23 @@ end
 #
 # using pre order root, left, right
 def serialize root
-  return "x" if root == nil
-  root.val.to_s + "," + serialize(root.left) + "," + serialize(root.right)
+  #return "x" if root == nil
+  #root.val.to_s + "," + serialize(root.left) + "," + serialize(root.right)
+  serialize_pre_order(root).join(",")
+end
+
+def serialize_pre_order root
+  result = []
+
+  if root.nil?
+    result << "x"
+  else
+    result << root.val
+    result << serialize_pre_order(root.left)
+    result << serialize_pre_order(root.right)
+  end
+
+  result
 end
 
 # Decodes your encoded data to tree.
@@ -387,3 +402,4 @@ node2.right = node5
 
 puts "result: #{serialize(node1)}"
 
+deserialize(serialize(node1))
