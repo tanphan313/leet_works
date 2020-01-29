@@ -74,11 +74,7 @@ class MyCircularQueue
 =end
   def is_full()
     return false if @pointer_obj[:head].nil?
-    if @pointer_obj[:tail] >= @pointer_obj[:head]
-      @pointer_obj[:tail] - @pointer_obj[:head] == @size - 1
-    else
-      @pointer_obj[:head] - @pointer_obj[:tail] == 1
-    end
+    ((@pointer_obj[:tail] + 1) % @size) == @pointer_obj[:head]
   end
 end
 
