@@ -20,7 +20,7 @@ class MyCircularQueue
       @pointer_obj[:head] = @pointer_obj[:tail] = 0
       @fixed_array[@pointer_obj[:head]] = value
     else
-      move_forward :tail
+      @pointer_obj[:tail] = (@pointer_obj[:tail] + 1) % @size
       @fixed_array[@pointer_obj[:tail]] = value
     end
     true
@@ -37,17 +37,9 @@ class MyCircularQueue
       @pointer_obj[:head] = @pointer_obj[:tail] = nil
     else
       @fixed_array[@pointer_obj[:head]] = nil
-      move_forward :head
+      @pointer_obj[:head] = (@pointer_obj[:head] + 1) % @size
     end
     true
-  end
-
-  def move_forward point_type
-    if @pointer_obj[point_type] == @size - 1
-      @pointer_obj[point_type] = 0
-    else
-      @pointer_obj[point_type] = @pointer_obj[point_type] + 1
-    end
   end
 
 =begin
