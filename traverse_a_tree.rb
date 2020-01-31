@@ -351,8 +351,6 @@ end
 #
 # using pre order root, left, right
 def serialize root
-  #return "x" if root == nil
-  #root.val.to_s + "," + serialize(root.left) + "," + serialize(root.right)
   serialize_pre_order(root).join(",")
 end
 
