@@ -173,6 +173,121 @@ Doc
 # @param {String[]} deadends
 # @param {String} target
 # @return {Integer}
-def open_lock(deadends, target)
+# Using level order
+# Single side BFS
+# Run BFS from root
+def open_lock deadends, target
+  queue = []
+  step = 0
 
+  queue.push "0000"
+
+  while queue != []
+    size = queue.size
+
+    # Scan all nodes in the same level
+    (0..(size-1)).each do |_i|
+      cur = queue.shift
+
+      return step if cur == target
+      next if deadends.include? cur
+
+      # Add cur to dead ends in case cur != target(mark it as vistied)
+      deadends.push cur
+
+      # Add more to the queue
+      # Add all posible cases to queue
+      # Rotate each digit, up and down
+      rotated_digits(cur).each do |new_str|
+        queue.push new_str unless deadends.include? new_str
+      end
+    end
+    step += 1
+  end
+
+  -1
 end
+
+def rotated_digits cur
+  new_str_arr = []
+  (0..3).each do |index|
+    new_str_up = cur.dup
+    new_str_down = cur.dup
+
+    digit_up = (cur[index].to_i + 1) % 10
+    digit_down = (cur[index].to_i - 1) % 10
+
+    new_str_up[index] = digit_up.to_s
+    new_str_down[index] = digit_down.to_s
+
+    new_str_arr.push new_str_up
+    new_str_arr.push new_str_down
+  end
+
+  new_str_arr
+end
+
+# Two ends BFS
+# Run BFS from root and target
+# Stop when cur node is visted by the root_visted or target_visited
+def open_lock2 deadends, target
+  root_queue = []
+  target_queue = []
+
+  root_visted = []
+  target_visted = []
+
+  root_deadends = deadends.dup
+  target_deadends = deadends.dup
+
+  # Do the two ends BFS, visit the first node will be treated as one step, we don't count that step
+  step = -1
+
+  return -1 if deadends.include?("0000") || deadends.include?(target)
+  return 0 if target == "0000"
+
+  root_queue.push "0000"
+  target_queue.push target
+
+  while root_queue != [] && target_queue != []
+    root_size = root_queue.size
+
+    (0..(root_size-1)).each do |_i|
+      cur = root_queue.shift
+
+      return step if target_visted.include? cur
+      next if root_deadends.include? cur
+
+      root_deadends.push cur
+      root_visted.push cur
+
+      rotated_digits(cur).each do |new_str|
+        root_queue.push new_str unless root_deadends.include? new_str
+      end
+    end
+    step += 1
+
+    target_size = target_queue.size
+    (0..(target_size-1)).each do |_i|
+      cur = target_queue.shift
+
+      return step if root_visted.include? cur
+      next if target_deadends.include? cur
+
+      target_deadends.push cur
+      target_visted.push cur
+
+      rotated_digits(cur).each do |new_str|
+        target_queue.push new_str unless target_deadends.include? new_str
+      end
+    end
+    step += 1
+  end
+
+  -1
+end
+
+deadends = ["0201","0101","0102","1212","2002"]
+target = "0202"
+
+puts open_lock2 deadends, target
