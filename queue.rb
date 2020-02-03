@@ -140,7 +140,6 @@ end
 #puts num_islands grid
 
 <<-Doc
-
 You have a lock in front of you with 4 circular wheels.
 Each wheel has 10 slots: '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'.
 The wheels can rotate freely and wrap around: for example we can turn '9' to be '0', or '0' to be '9'.
@@ -287,7 +286,74 @@ def open_lock2 deadends, target
   -1
 end
 
-deadends = ["0201","0101","0102","1212","2002"]
-target = "0202"
+<<-DOc
+Given a positive integer n, find the least number of perfect square numbers (for example, 1, 4, 9, 16, ...) which sum to n.
 
-puts open_lock2 deadends, target
+Example 1:
+
+Input: n = 12
+Output: 3 
+Explanation: 12 = 4 + 4 + 4.
+Example 2:
+
+Input: n = 13
+Output: 2
+Explanation: 13 = 4 + 9.
+DOc
+
+<<-DOc
+BFS approach solution:
+The BFS approach considers finding the min numbers as a search problem. 
+Specifically, the root node is the positive integer n,
+every time we subtract the value n with all the posiblle square values, 
+which can be considered as a path from parent node to the child node. 
+The goal is to find the shortest path, connect from root node to the node in which the value is zero. 
+A simple way to reduce the computations is that: we could eliminate the node which we have seen before, 
+since the path go through (if exists) the newly seen node, must not as short as any path that go through 
+the previously seen node with same value.
+
+This solution encouter time limit exceeded in leet_code
+DOc
+
+# @param {Integer} n
+# @return {Integer}
+def num_squares n
+  queue = []
+  step = 0
+
+  queue.push n
+
+  while queue != []
+    size = queue.size
+
+    # Scan all nodes in the same level
+    (0..(size - 1)).each do |_i|
+      cur = queue.shift
+
+      return step if cur == 0
+
+      # Add more to the queue
+      add_posible_children queue, cur
+    end
+    step += 1
+  end
+end
+
+def add_posible_children queue, n
+  i = 1
+  while i <= Math.sqrt(n).to_i
+    queue.push n - i**2
+    i += 1
+  end
+end
+
+puts num_squares 7168
+
+# Check if n is a square in basic way
+def is_square? n
+  i = 1
+  while true
+    return true if i**2 == n
+    return false if i**2 > n
+  end
+end
