@@ -347,13 +347,18 @@ def add_posible_children queue, n
   end
 end
 
-puts num_squares 7168
+<<-Doc
+Dynamic Programming approach
 
-# Check if n is a square in basic way
-def is_square? n
-  i = 1
-  while true
-    return true if i**2 == n
-    return false if i**2 > n
-  end
+The DP solution goes pretty straightforward, since for every value n, 
+it must come from some value plus a square number. This can be written as:
+d[n] = min(d[n - i * i]) + 1, where d[n] is the least number of square numbers, and i * i <= n.
+
+d[0] = 0
+d[1] = min(d[1-1*1]) + 1 = min(d[0]) + 1 = 1
+d[4] = min(d[4-1*1], d[4-2*2]) + 1 = min(d[3], d[0]) + 1 = d[0] + 1 = 1
+Doc
+
+def num_squares_dp n
+
 end
