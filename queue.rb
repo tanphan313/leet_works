@@ -333,13 +333,13 @@ def num_squares n
       return step if cur == 0
 
       # Add more to the queue
-      add_posible_children queue, cur
+      add_possible_children queue, cur
     end
     step += 1
   end
 end
 
-def add_posible_children queue, n
+def add_possible_children queue, n
   i = 1
   while i <= Math.sqrt(n).to_i
     queue.push n - i**2
@@ -360,5 +360,24 @@ d[4] = min(d[4-1*1], d[4-2*2]) + 1 = min(d[3], d[0]) + 1 = d[0] + 1 = 1
 Doc
 
 def num_squares_dp n
+  return 0 if n == 0
 
+  possible_sq_children(n).map do |sq_child|
+    num_squares_dp(n - sq_child**2)
+  end.min + 1
 end
+
+def possible_sq_children n
+  rs = []
+  i = 1
+  while i**2 <= n
+    rs.push i
+    i += 1
+  end
+  rs
+end
+
+<<-Doc
+It is based on Lagrange’s four-square theorem every natural number can be represented as the sum of four integer squares.
+So the answer set would be 1, 2, 3 or 4.
+Doc
