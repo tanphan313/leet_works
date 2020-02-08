@@ -85,7 +85,7 @@ For example, given the list of temperatures T = [73, 74, 75, 71, 69, 72, 76, 73]
 your output should be [1, 1, 4, 2, 1, 1, 0, 0].
 DOC
 
-def daily_temperatures_stack t
+def daily_temperatures t
   result = Array.new(t.size, 0)
   support_stack = []
 
@@ -106,4 +106,67 @@ def daily_temperatures_stack t
   result
 end
 
-puts daily_temperatures_stack([73, 74, 75, 71, 69, 72, 76, 73])
+<<-DOC
+Evaluate the value of an arithmetic expression in Reverse Polish Notation.
+
+Valid operators are +, -, *, /. Each operand may be an integer or another expression.
+
+Note:
+
+Division between two integers should truncate toward zero.
+The given RPN expression is always valid. 
+That means the expression would always evaluate to a result and there won't be any divide by zero operation.
+
+Example 1:
+Input: ["2", "1", "+", "3", "*"]
+Output: 9
+Explanation: ((2 + 1) * 3) = 9
+
+Example 2:
+Input: ["4", "13", "5", "/", "+"]
+Output: 6
+Explanation: (4 + (13 / 5)) = 6
+
+Example 3:
+Input: ["10", "6", "9", "3", "+", "-11", "*", "/", "*", "17", "+", "5", "+"]
+Output: 22
+Explanation: 
+  ((10 * (6 / ((9 + 3) * -11))) + 17) + 5
+= ((10 * (6 / (12 * -11))) + 17) + 5
+= ((10 * (6 / -132)) + 17) + 5
+= ((10 * 0) + 17) + 5
+= (0 + 17) + 5
+= 17 + 5
+= 22
+DOC
+
+class String
+  def is_integer?
+    self.to_i.to_s == self
+  end
+end
+
+class Fixnum
+  def / arg
+    self.to_i.fdiv(arg.to_i).to_i
+  end
+end
+
+OPERATORS = %w(+ - * /)
+
+def eval_rpn tokens
+  stack = []
+
+  tokens.each do |token|
+    if token.is_integer?
+      stack.push token.to_i
+    elsif OPERATORS.include? token
+      second_arg = stack.pop
+      first_arg = stack.pop
+
+      stack.push(first_arg.send(token, second_arg))
+    end
+  end
+
+  stack.first.to_i
+end
