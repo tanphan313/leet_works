@@ -146,7 +146,7 @@ class String
   end
 end
 
-class Fixnum
+class Integer
   def / arg
     self.to_i.fdiv(arg.to_i).to_i
   end
@@ -170,3 +170,90 @@ def eval_rpn tokens
 
   stack.first.to_i
 end
+
+<<-DOC
+Given a 2d grid map of '1's (land) and '0's (water), count the number of islands. 
+An island is surrounded by water and is formed by connecting adjacent lands horizontally or vertically. 
+You may assume all four edges of the grid are all surrounded by water.
+DOC
+
+def num_islands(grid)
+  heigh = grid.size
+  return 0 if heigh == 0
+  length = grid[0].size
+
+  result = 0
+
+  visited = []
+  grid.each{ |_val| visited << Array.new(length, false)}
+
+  grid.each_with_index do |sub_arr, row|
+    sub_arr.each_with_index do |val, col|
+      # Just evaluate nodes whose value is equal to 1
+      if visited[row][col] == false && val == "1"
+        # stack
+        #dfs({row: row, col: col}, grid, visited)
+
+        # recursion
+        dfs_recursion({row: row, col: col}, grid, visited)
+
+        # Increase result after finish one dfs
+        result += 1
+      end
+    end
+  end
+
+  result
+end
+
+# DFS using stack
+def dfs root, grid, visted
+  heigh = grid.size
+  length = grid[0].size
+
+  stack = []
+  stack << root
+  while stack != []
+
+    cur = stack.pop
+    row = cur[:row]
+    col = cur[:col]
+
+    next if visted[row][col] || grid[row][col] != "1"
+
+    visted[row][col] = true
+
+    stack << {row: row - 1, col: col} unless row == 0  # UP
+    stack << {row: row + 1, col: col} unless row + 1 == heigh # Down
+    stack << {row: row, col: col - 1} unless col == 0 # Left
+    stack << {row: row, col: col + 1} unless col + 1 == length # Right
+  end
+end
+
+# DFS using recursion
+def dfs_recursion root, grid, visted
+  heigh = grid.size
+  length = grid[0].size
+
+  row = root[:row]
+  col = root[:col]
+
+  return if visted[row][col] || grid[row][col] != "1"
+
+  visted[row][col] = true
+
+  dfs_recursion({row: row - 1, col: col}, grid, visted) unless row == 0  # UP
+  dfs_recursion({row: row + 1, col: col}, grid, visted) unless row + 1 == heigh # Down
+  dfs_recursion({row: row, col: col - 1}, grid, visted) unless col == 0 # Left
+  dfs_recursion({row: row, col: col + 1}, grid, visted) unless col + 1 == length # Right
+end
+
+grid = [
+  %w(1 0 0 ),
+  %w(0 1 1),
+  %w(0 1 0),
+  %w(0 0 1),
+  %w(0 1 1)
+]
+# Should return 3
+puts num_islands grid

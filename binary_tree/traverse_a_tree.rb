@@ -36,7 +36,7 @@ def preorder_traversal_iteration root
   result
 end
 
-# Using recursion, left-root-right
+# Using recursion, left-root-right, similar to dfs
 def in_order_traversal(root)
   result = []
 
