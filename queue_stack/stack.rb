@@ -250,15 +250,15 @@ def dfs_recursion root, grid, visted
   dfs_recursion({row: row, col: col + 1}, grid, visted) unless col + 1 == length # Right
 end
 
-grid = [
-  %w(1 0 0 ),
-  %w(0 1 1),
-  %w(0 1 0),
-  %w(0 0 1),
-  %w(0 1 1)
-]
+#grid = [
+#  %w(1 0 0 ),
+#  %w(0 1 1),
+#  %w(0 1 0),
+#  %w(0 0 1),
+#  %w(0 1 1)
+#]
 # Should return 3
-puts num_islands grid
+#puts num_islands grid
 
 <<-DOC
 Input: adjList = [[2,4],[1,3],[2,4],[1,3]]
@@ -295,4 +295,37 @@ def cloneGraph root
   end
 
   clone
+end
+
+<<-DOC
+You are given a list of non-negative integers, a1, a2, ..., an, and a target, S. 
+Now you have 2 symbols + and -. For each integer, you should choose one from + and - as its new symbol.
+
+Find out how many ways to assign symbols to make sum of integers equal to target S.
+
+Example 1:
+Input: nums is [1, 1, 1, 1, 1], S is 3. 
+Output: 5
+Explanation: 
+
+-1+1+1+1+1 = 3
++1-1+1+1+1 = 3
++1+1-1+1+1 = 3
++1+1+1-1+1 = 3
++1+1+1+1-1 = 3
+
+There are 5 ways to assign symbols to make the sum of nums be target 3.
+DOC
+
+TARGET_SUM_OPERATORS = %w(+ -)
+
+def find_target_sum_ways nums, s
+
+end
+
+def find_target target, cur_val, operator
+  return true if target.send(operator, cur_val) == 0
+
+  find_target(target - cur_val, next_val, :+)
+  find_target(target - cur_val, next_val, :-)
 end
