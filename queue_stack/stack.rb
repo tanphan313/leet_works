@@ -223,6 +223,7 @@ def dfs root, grid, visted
 
     visted[row][col] = true
 
+    # Visit neighbors
     stack << {row: row - 1, col: col} unless row == 0  # UP
     stack << {row: row + 1, col: col} unless row + 1 == heigh # Down
     stack << {row: row, col: col - 1} unless col == 0 # Left
@@ -242,6 +243,7 @@ def dfs_recursion root, grid, visted
 
   visted[row][col] = true
 
+  # Visit neighbors
   dfs_recursion({row: row - 1, col: col}, grid, visted) unless row == 0  # UP
   dfs_recursion({row: row + 1, col: col}, grid, visted) unless row + 1 == heigh # Down
   dfs_recursion({row: row, col: col - 1}, grid, visted) unless col == 0 # Left
@@ -257,3 +259,40 @@ grid = [
 ]
 # Should return 3
 puts num_islands grid
+
+<<-DOC
+Input: adjList = [[2,4],[1,3],[2,4],[1,3]]
+Output: [[2,4],[1,3],[2,4],[1,3]]
+Explanation: There are 4 nodes in the graph.
+1st node (val = 1)'s neighbors are 2nd node (val = 2) and 4th node (val = 4).
+2nd node (val = 2)'s neighbors are 1st node (val = 1) and 3rd node (val = 3).
+3rd node (val = 3)'s neighbors are 2nd node (val = 2) and 4th node (val = 4).
+4th node (val = 4)'s neighbors are 1st node (val = 1) and 3rd node (val = 3).
+DOC
+
+class Node
+  attr_accessor :val, :neighbors
+
+  def initialize val, neighbors
+    @val = val
+    @neighbors = neighbors
+  end
+end
+
+# Using dfs
+def cloneGraph root
+  return if root.nil?
+
+  copied = []
+  copied << root
+
+  clone = Node.new(root.val, [])
+
+  root.neighbors.each do |neighbor|
+    next if copied.include? neighbor
+    copied << neighbor
+    clone.neighbors << cloneGraph(neighbor)
+  end
+
+  clone
+end
