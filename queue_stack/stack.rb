@@ -320,7 +320,11 @@ DOC
 TARGET_SUM_OPERATORS = %w(+ -)
 
 def find_target_sum_ways nums, s
+  nums.each do |num|
+    TARGET_SUM_OPERATORS.each do |operator|
 
+    end
+  end
 end
 
 def find_target target, cur_val, operator
