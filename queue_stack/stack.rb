@@ -292,11 +292,9 @@ def clone_graph root
 
   root.neighbors.each do |neighbor|
     if @copied.has_key? :"#{neighbor.object_id}"
-      # already run clone on this neighbor, just add this neighbor to the clone
+      # already run clone on this neighbor, just add this neighbor to the clone's neighbors
       clone.neighbors << @copied[:"#{neighbor.object_id}"]
     else
-      # add to visited, then run clone on this neighbor
-      @copied.merge!({:"#{neighbor.object_id}" => neighbor})
       # add the clone of this neighbor to the clone's neighbors
       clone.neighbors << clone_graph(neighbor)
     end
