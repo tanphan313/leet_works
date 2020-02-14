@@ -279,22 +279,26 @@ class Node
   end
 end
 
-@copied = []
+@copied = {}
 
 # Using dfs
-def cloneGraph root
+def clone_graph root
   return if root.nil?
-
-  @copied << root
 
   clone = Node.new(root.val, [])
 
+  # Mark clone as copied
+  @copied.merge!({:"#{root.object_id}" => clone})
+
   root.neighbors.each do |neighbor|
-    if @copied.include? neighbor
-      clone.neighbors << neighbor
+    if @copied.has_key? :"#{neighbor.object_id}"
+      # already run clone on this neighbor, just add this neighbor to the clone
+      clone.neighbors << @copied[:"#{neighbor.object_id}"]
     else
-      @copied << neighbor
-      clone.neighbors << cloneGraph(neighbor)
+      # add to visited, then run clone on this neighbor
+      @copied.merge!({:"#{neighbor.object_id}" => neighbor})
+      # add the clone of this neighbor to the clone's neighbors
+      clone.neighbors << clone_graph(neighbor)
     end
   end
 
@@ -311,10 +315,17 @@ node2.neighbors = [node1, node3]
 node3.neighbors = [node2, node4]
 node4.neighbors = [node1, node3]
 
-clone = cloneGraph node1
+clone = clone_graph node1
+
+puts "node1 id: #{node1.object_id}"
+puts "node2 id: #{node2.object_id}"
+puts "node4 id: #{node4.object_id}"
+
+puts "clone id: #{clone.object_id}"
 
 clone.neighbors.each do |ne|
   puts "ne: #{ne.val}"
+  puts "ne id #{ne.object_id}"
 end
 
 
