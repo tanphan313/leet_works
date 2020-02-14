@@ -279,23 +279,44 @@ class Node
   end
 end
 
+@copied = []
+
 # Using dfs
 def cloneGraph root
   return if root.nil?
 
-  copied = []
-  copied << root
+  @copied << root
 
   clone = Node.new(root.val, [])
 
   root.neighbors.each do |neighbor|
-    next if copied.include? neighbor
-    copied << neighbor
-    clone.neighbors << cloneGraph(neighbor)
+    if @copied.include? neighbor
+      clone.neighbors << neighbor
+    else
+      @copied << neighbor
+      clone.neighbors << cloneGraph(neighbor)
+    end
   end
 
   clone
 end
+
+node1 = Node.new(1, [])
+node2 = Node.new(2, [])
+node3 = Node.new(3, [])
+node4 = Node.new(4, [])
+
+node1.neighbors = [node2, node4]
+node2.neighbors = [node1, node3]
+node3.neighbors = [node2, node4]
+node4.neighbors = [node1, node3]
+
+clone = cloneGraph node1
+
+clone.neighbors.each do |ne|
+  puts "ne: #{ne.val}"
+end
+
 
 <<-DOC
 You are given a list of non-negative integers, a1, a2, ..., an, and a target, S. 
@@ -317,19 +338,19 @@ Explanation:
 There are 5 ways to assign symbols to make the sum of nums be target 3.
 DOC
 
-TARGET_SUM_OPERATORS = %w(+ -)
-
-def find_target_sum_ways nums, s
-  nums.each do |num|
-    TARGET_SUM_OPERATORS.each do |operator|
-
-    end
-  end
-end
-
-def find_target target, cur_val, operator
-  return true if target.send(operator, cur_val) == 0
-
-  find_target(target - cur_val, next_val, :+)
-  find_target(target - cur_val, next_val, :-)
-end
+# TARGET_SUM_OPERATORS = %w(+ -)
+#
+# def find_target_sum_ways nums, s
+#   nums.each do |num|
+#     TARGET_SUM_OPERATORS.each do |operator|
+#
+#     end
+#   end
+# end
+#
+# def find_target target, cur_val, operator
+#   return true if target.send(operator, cur_val) == 0
+#
+#   find_target(target - cur_val, next_val, :+)
+#   find_target(target - cur_val, next_val, :-)
+# end
