@@ -279,52 +279,50 @@ class Node
   end
 end
 
-@copied = {}
-
 # Using dfs
-def clone_graph root
+def clone_graph root, copied: {}
   return if root.nil?
 
   clone = Node.new(root.val, [])
 
   # Mark clone as copied
-  @copied.merge!({:"#{root.object_id}" => clone})
+  copied.merge!({:"#{root.object_id}" => clone})
 
   root.neighbors.each do |neighbor|
-    if @copied.has_key? :"#{neighbor.object_id}"
+    if copied.has_key? :"#{neighbor.object_id}"
       # already run clone on this neighbor, just add this neighbor to the clone's neighbors
-      clone.neighbors << @copied[:"#{neighbor.object_id}"]
+      clone.neighbors << copied[:"#{neighbor.object_id}"]
     else
       # add the clone of this neighbor to the clone's neighbors
-      clone.neighbors << clone_graph(neighbor)
+      clone.neighbors << clone_graph(neighbor, copied: copied)
     end
   end
 
   clone
 end
 
-node1 = Node.new(1, [])
-node2 = Node.new(2, [])
-node3 = Node.new(3, [])
-node4 = Node.new(4, [])
-
-node1.neighbors = [node2, node4]
-node2.neighbors = [node1, node3]
-node3.neighbors = [node2, node4]
-node4.neighbors = [node1, node3]
-
-clone = clone_graph node1
-
-puts "node1 id: #{node1.object_id}"
-puts "node2 id: #{node2.object_id}"
-puts "node4 id: #{node4.object_id}"
-
-puts "clone id: #{clone.object_id}"
-
-clone.neighbors.each do |ne|
-  puts "ne: #{ne.val}"
-  puts "ne id #{ne.object_id}"
-end
+# node1 = Node.new(1, [])
+# node2 = Node.new(2, [])
+# node3 = Node.new(3, [])
+# node4 = Node.new(4, [])
+#
+# node1.neighbors = [node2, node4]
+# node2.neighbors = [node1, node3]
+# node3.neighbors = [node2, node4]
+# node4.neighbors = [node1, node3]
+#
+# clone = clone_graph node1
+#
+# puts "node1 id: #{node1.object_id}"
+# puts "node2 id: #{node2.object_id}"
+# puts "node4 id: #{node4.object_id}"
+#
+# puts "clone id: #{clone.object_id}"
+#
+# clone.neighbors.each do |ne|
+#   puts "ne: #{ne.val}"
+#   puts "ne id #{ne.object_id}"
+# end
 
 
 <<-DOC
@@ -347,19 +345,19 @@ Explanation:
 There are 5 ways to assign symbols to make the sum of nums be target 3.
 DOC
 
-# TARGET_SUM_OPERATORS = %w(+ -)
-#
-# def find_target_sum_ways nums, s
-#   nums.each do |num|
-#     TARGET_SUM_OPERATORS.each do |operator|
-#
-#     end
-#   end
-# end
-#
-# def find_target target, cur_val, operator
-#   return true if target.send(operator, cur_val) == 0
-#
-#   find_target(target - cur_val, next_val, :+)
-#   find_target(target - cur_val, next_val, :-)
-# end
+TARGET_SUM_OPERATORS = %w(+ -)
+
+def find_target_sum_ways nums, s
+  nums.each do |num|
+    TARGET_SUM_OPERATORS.each do |operator|
+
+    end
+  end
+end
+
+def find_target target, cur_val, operator
+  return true if target.send(operator, cur_val) == 0
+
+  find_target(target - cur_val, next_val, :+)
+  find_target(target - cur_val, next_val, :-)
+end
