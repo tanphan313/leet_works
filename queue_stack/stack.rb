@@ -345,19 +345,42 @@ Explanation:
 There are 5 ways to assign symbols to make the sum of nums be target 3.
 DOC
 
-TARGET_SUM_OPERATORS = %w(+ -)
+<<-DOC
+Solution
+
+sum = SUM(nums)
+
+Let p, n be the sums of numbers with positive and negative symbols, respectively. Let sum = p + n
+
+S = p - n (p is the positive part, n is the negative part)
+
+p - n = S
+p - n + 2n = S + 2n
+p + n = S + 2n
+sum = S + 2n
+
+n = (sum - S)/2
+p = (sum + S)/2
+
+Therefore, the problem is equivalent to finding integers that sum up to p or finding integers that sum up to n
+
+the original problem statement may be converted into the following subset sum problem: 
+find the number of ways to gather a subset of nums such that its sum is equal to (target + sum(nums)) / 2.
+
+Let dp[i, target] be the number of subsets of nums[i..] that sum up to target.
+Then dp[i, target] = dp[i+1, target] + dp[i+1, target - nums[i]]
+
+DOC
 
 def find_target_sum_ways nums, s
-  nums.each do |num|
-    TARGET_SUM_OPERATORS.each do |operator|
+  sum = nums.inject(:+)
+  return 0 if s > sum || -s < -sum || (s + sum) % 2 == 1
 
-    end
-  end
+  find_subset_num nums, 0, (sum - s)/2
 end
 
-def find_target target, cur_val, operator
-  return true if target.send(operator, cur_val) == 0
-
-  find_target(target - cur_val, next_val, :+)
-  find_target(target - cur_val, next_val, :-)
+def find_subset_num nums, i, target
+  return 0 if target < 0
+  return target == 0 if i == nums.size
+  find_subset_num(nums, i + 1, target) + find_subset_num(nums, i + 1, target - nums[i])
 end
