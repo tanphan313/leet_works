@@ -376,11 +376,13 @@ def find_target_sum_ways nums, s
   sum = nums.inject(:+)
   return 0 if s > sum || -s < -sum || (s + sum) % 2 == 1
 
-  find_subset_num nums, 0, (sum - s)/2
+  find_subset_num nums, 0, (sum + s)/2
 end
 
 def find_subset_num nums, i, target
   return 0 if target < 0
-  return target == 0 if i == nums.size
+  return 1 if i == nums.size - 1
   find_subset_num(nums, i + 1, target) + find_subset_num(nums, i + 1, target - nums[i])
 end
+
+puts find_target_sum_ways [1,1,1,1,1], 1
