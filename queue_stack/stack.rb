@@ -381,6 +381,7 @@ end
 
 def find_subset_num nums, i, target
   return 0 if target < 0
+  # i run out size of the array and target = 0
   if i == nums.size
     return target == 0 ? 1 : 0
   end
