@@ -63,7 +63,7 @@ COUNTER = {
 }
 
 def counter? second, first
-  MATCHER[first] == second
+  MATCHER[first] != second
 end
 
 MATCHER = {

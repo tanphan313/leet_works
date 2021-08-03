@@ -130,36 +130,206 @@ Examples:
 s = "3[a]2[bc]", return "aaabcbc".
 s = "3[a2[c]]", return "accaccacc".
 s = "2[abc]3[cd]ef", return "abcabccdcdcdef".
+s = "100[leetcode]".
 Doc
 
-def decode_string(s)
-  return "" if s == ""
-  characters = s.split("")
-  queue = []
-  res = ""
-
-  characters.each do |char|
-    queue.push char
+class String
+  def is_integer?
+    self.to_i.to_s == self
   end
 end
 
+def decode_string s
+  return "" if s == ""
 
-# while queue != [] do
-#   val = queue.shift
-#   if val.match(/[0-9]/)
-#     res << multiple_decoded(val.to_i, s.slice!(0))
-#   end
-# end
+  characters = s.split("")
+  current_str = ""
+  stack = []
+  current_num = 0
 
-def multiple_decoded k, sub_str
-  k * decode(sub_str)
+  characters.each do |char|
+    if char.is_integer?
+      current_num = current_num * 10 + char.to_i
+    elsif  char == "["
+      stack.push current_num
+      stack.push current_str
+      current_num = 0
+      current_str = ""
+    elsif char == "]"
+      last_str = stack.pop
+      last_num = stack.pop
+
+      current_str = last_str + current_str*last_num
+    else
+      current_str << char
+    end
+  end
+
+  current_str
 end
 
-def decode str
+<<-Doc
+Input: image = [[1,1,1],[1,1,0],[1,0,1]], sr = 1, sc = 1, newColor = 2
+Output: [[2,2,2],[2,2,0],[2,0,1]]
 
+Explanation: From the center of the image with position (sr, sc) = (1, 1) (i.e., the red pixel), 
+all pixels connected by a path of the same color as the starting pixel (i.e., the blue pixels) are colored with the new color.
+Note the bottom corner is not colored 2, because it is not 4-directionally connected to the starting pixel.
+Doc
+
+# @param {Integer[][]} image
+# @param {Integer} sr
+# @param {Integer} sc
+# @param {Integer} new_color
+# @return {Integer[][]}
+# Using BFS
+def flood_fill(image, sr, sc, new_color)
+  length = image[0].size
+  source_color = image[sr][sc]
+
+  visited = []
+  image.each{ |_val| visited << Array.new(length, false)}
+
+  if source_color != new_color
+    bfs({row: sr, col: sc}, image, visited, source_color, new_color)
+  end
+
+  image
 end
 
-# standard s = k[string]
-def multiple_string k, string
-  string * k
+def bfs root, image, visted, source_color, new_color
+  heigh = image.size
+  length = image[0].size
+
+  queue = []
+  queue << root
+  while queue != []
+    cur = queue.shift
+    row = cur[:row]
+    col = cur[:col]
+
+    next if visted[row][col] || image[row][col] != source_color
+
+    visted[row][col] = true
+    image[row][col] = new_color
+
+    queue << {row: row - 1, col: col} unless row == 0  # UP
+    queue << {row: row + 1, col: col} unless row + 1 == heigh # Down
+    queue << {row: row, col: col - 1} unless col == 0 # Left
+    queue << {row: row, col: col + 1} unless col + 1 == length # Right
+  end
 end
+
+# image = [[1,1,1],[1,1,0],[1,0,1]]
+#
+# p flood_fill image, 1 ,1,2
+
+<<-Doc
+Given an m x n binary matrix mat, return the distance of the nearest 0 for each cell.
+
+The distance between two adjacent cells is 1.
+
+Input: mat = [[0,0,0],[0,1,0],[1,1,1]]
+Output: [[0,0,0],[0,1,0],[1,2,1]]
+Doc
+
+# @param {Integer[][]} mat
+# @return {Integer[][]}
+def update_matrix grid
+  length = grid[0].size
+
+  result = []
+
+  grid.each do |_val|
+    result << Array.new(length, 0)
+  end
+
+  grid.each_with_index do |sub_arr, row|
+    sub_arr.each_with_index do |val, col|
+      next if val == 0
+      result[row][col] = distance({row: row, col: col}, grid)
+    end
+  end
+
+  result
+end
+
+# using bfs
+# Time limit exceeded on LeetCode
+def distance root, grid
+  step = 0
+  heigh = grid.size
+  length = grid[0].size
+
+  queue = []
+  queue.push root
+  while queue != []
+    size = queue.size
+
+    (0..(size - 1)).each do |_i|
+      cur = queue.shift
+      row = cur[:row]
+      col = cur[:col]
+
+      return step if grid[row][col] == 0
+
+      queue.push({row: row - 1, col: col}) unless row == 0  # UP
+      queue.push({row: row + 1, col: col}) unless row + 1 == heigh # Down
+      queue.push({row: row, col: col - 1}) unless col == 0 # Left
+      queue.push({row: row, col: col + 1}) unless col + 1 == length # Right
+    end
+
+    step += 1
+  end
+end
+
+# p update_matrix [[0,0,0],[0,1,0],[1,1,1]]
+
+<<-Doc
+There are n rooms labeled from 0 to n - 1 and all the rooms are locked except for room 0. Your goal is to visit all the rooms. 
+However, you cannot enter a locked room without having its key.
+
+When you visit a room, you may find a set of distinct keys in it. Each key has a number on it, denoting which room it unlocks, 
+and you can take all of them with you to unlock the other rooms.
+
+Given an array rooms where rooms[i] is the set of keys that you can obtain if you visited room i, return true if you can visit all the rooms, or false otherwise.
+
+Input: rooms = [[1],[2],[3],[]]
+Output: true
+Explanation: 
+We visit room 0 and pick up key 1.
+We then visit room 1 and pick up key 2.
+We then visit room 2 and pick up key 3.
+We then visit room 3.
+Since we were able to visit every room, we return true.
+
+Input: rooms = [[1,3],[3,0,1],[2],[0]]
+Output: false
+Explanation: We can not enter room number 2 since the only key that unlocks it is in that room.
+Doc
+
+# @param {Integer[][]} rooms
+# @return {Boolean}
+def can_visit_all_rooms rooms
+  num_rooms = rooms.size
+  visited = Array.new(num_rooms, false)
+
+  visited[0] = true
+
+  queue = []
+  queue.push rooms.first
+  while queue != []
+    current_room_keys = queue.shift
+
+    current_room_keys.each do |room_key|
+      next if visited[room_key] == true
+
+      visited[room_key] = true
+      queue.push rooms[room_key]
+    end
+  end
+
+  visited.select{|x| x == true}.size == num_rooms
+end
+
+# p can_visit_all_rooms [[1,3],[3,0,1],[2],[0]]
