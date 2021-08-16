@@ -303,7 +303,7 @@ DOc
 
 <<-DOc
 BFS approach solution:
-The BFS approach considers finding the min numbers as a search problem. 
+The BFS approach considers finding the min numbers as a search problems. 
 Specifically, the root node is the positive integer n,
 every time we subtract the value n with all the posiblle square values, 
 which can be considered as a path from parent node to the child node. 

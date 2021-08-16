@@ -362,9 +362,9 @@ sum = S + 2n
 n = (sum - S)/2
 p = (sum + S)/2
 
-Therefore, the problem is equivalent to finding integers that sum up to p or finding integers that sum up to n
+Therefore, the problems is equivalent to finding integers that sum up to p or finding integers that sum up to n
 
-the original problem statement may be converted into the following subset sum problem: 
+the original problems statement may be converted into the following subset sum problems: 
 find the number of ways to gather a subset of nums such that its sum is equal to (target + sum(nums)) / 2.
 
 Let dp[i, target] be the number of subsets of nums[i..] that sum up to target.
