@@ -34,17 +34,6 @@ def max_profit prices
   max_profit
 end
 
-def max_profit prices
-  max_sum = 0
-  prices.lazy.each_cons(2).map{|(a, b)| b-a}.reduce(0) do |sum, e|
-    puts "e, sum, max_sum: #{e}, #{sum}, #{max_sum}"
-    sum > 0 ? sum += e : sum = e
-    sum > max_sum ? max_sum = sum : 0
-    sum
-  end
-  max_sum
-end
-
 p max_profit [7,1,5,3,6,4]
 
 <<-Doc
