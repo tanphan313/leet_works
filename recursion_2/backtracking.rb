@@ -8,6 +8,20 @@ Given an integer n, return the number of distinct solutions to the n-queens puzz
 Input: n = 4
 Output: 2
 Explanation: There are two distinct solutions to the 4-queens puzzle as shown.
+
+Check if cell is under attack https://www.geeksforgeeks.org/check-if-a-queen-can-attack-a-given-cell-on-chessboard/
+
+Each queen have a position on the board that can be represented as (X,Y).
+
+Given two Queen : Queen#1 (r1, c1) and Queen#2 (r2, c2)
+
+Given a board of sixe 8x8
+
+A queen can attack another if :
+
+. they are on the same line : r1 = r2
+. they are on the same column : c1 = c2
+. they are on the same diagonal : r1-c1 = r2-c2 or r1+c1 = r2+c2
 Doc
 
 # @param {Integer} n
@@ -17,6 +31,16 @@ def total_n_queens n
   0.upto(n - 1).each do |i|
     m[i] = Array.new(n, 0)
   end
+  # If col[n] is under attack, col_check[n] = true
+  @col_check = {}
+
+  # IF r1 - c1 = r2 - c2, the queen is under attack, we save r1 - c1 = true every time we place a queen
+  # Then if we're going to place Q2(r2, c2), we check if diagnoal_check_1[r2 - c2] is true, r2 - c2 is in under attack
+  @diagnoal_check_1 = {}
+
+  # IF r1 + c1 = r2 + c2, the queen is under attack, we save r1 + c1 = true every time we place a queen
+  # Then if we're going to place Q2(r2, c2), we check if diagnoal_check_1[r2 + c2] is true, r2 + c2 is in under attack
+  @diagnoal_check_2 = {}
 
   backtrack 0, m, 0
 end
@@ -44,64 +68,31 @@ def backtrack row, matrix, count
 end
 
 def is_safe? row, col, matrix
-  attack_range_coordinates(row, col, matrix.size).uniq.each do |pair|
-    return false if matrix[pair[0]][pair[1]] == 1
-  end
+  return false if @col_check[col] || @diagnoal_check_1[row - col] || @diagnoal_check_2[row + col]
 
   true
 end
 
 def place_queen row, col, matrix
   matrix[row][col] = 1
+
+  @col_check[col] = true
+  @diagnoal_check_1[row - col] = true
+  @diagnoal_check_2[row + col] = true
 end
 
 def remove_queen row, col, matrix
   matrix[row][col] = 0
-end
 
-def attack_range_coordinates row, col, size
-  result = []
-
-  0.upto(size - 1) do |i|
-    result << [row, i]
-    result << [i, col]
-  end
-
-  r, c = row, col
-  while r >= 0 && c >= 0
-    result << [r, c]
-    r -= 1
-    c -= 1
-  end
-
-  r, c = row, col
-  while r < size && c < size
-    result << [r, c]
-    r += 1
-    c += 1
-  end
-
-  r, c = row, col
-  while r >= 0 && c < size
-    result << [r, c]
-    r -= 1
-    c += 1
-  end
-
-  r, c = row, col
-  while r < size && c >= 0
-    result << [r, c]
-    r += 1
-    c -= 1
-  end
-
-  result
+  @col_check[col] = false
+  @diagnoal_check_1[row - col] = false
+  @diagnoal_check_2[row + col] = false
 end
 
 # p total_n_queens 4
 
 <<-Doc
-Soduku solver 
+Soduku solver
 Input: board = [["5","3",".",".","7",".",".",".","."],["6",".",".","1","9","5",".",".","."],[".","9","8",".",".",".",".","6","."],["8",".",".",".","6",".",".",".","3"],["4",".",".","8",".","3",".",".","1"],["7",".",".",".","2",".",".",".","6"],[".","6",".",".",".",".","2","8","."],[".",".",".","4","1","9",".",".","5"],[".",".",".",".","8",".",".","7","9"]]
 Output: [["5","3","4","6","7","8","9","1","2"],["6","7","2","1","9","5","3","4","8"],["1","9","8","3","4","2","5","6","7"],["8","5","9","7","6","1","4","2","3"],["4","2","6","8","5","3","7","9","1"],["7","1","3","9","2","4","8","5","6"],["9","6","1","5","3","7","2","8","4"],["2","8","7","4","1","9","6","3","5"],["3","4","5","2","8","6","1","7","9"]]
 Explanation: The input board is shown above and the only valid solution is shown below:
