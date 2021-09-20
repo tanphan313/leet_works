@@ -23,27 +23,27 @@ Doc
 # @param {Integer} target
 # @return {Integer}
 def search nums, target
-  pivot_index = nums.size - 1
-  target_index = -1
+  left = 0
+  right = nums.length - 1
 
-  i = 0
-  1.upto(nums.size - 1).each do |j|
-    if nums[j] > nums[i]
-      pivot_index -= 1
-      i += 1
+  while(left<=right) do
+    mid = (left+right)/2
+    return mid if nums[mid] == target
+
+    if nums[mid] >= nums[left]
+      if target > nums[mid] || target < nums[left]
+        left = mid + 1
+      else
+        right = mid - 1
+      end
     else
-      break
+      if target < nums[mid] || target > nums[right]
+        right = mid - 1
+      else
+        left = mid + 1
+      end
     end
   end
 
-  index = pivot_index
-  0.upto(nums.size - 1).each do |k|
-    if nums[k] == target
-      target_index = index % nums.size
-    else
-      index = (index + 1) % nums.size
-    end
-  end
-
-  target_index
+  -1
 end
