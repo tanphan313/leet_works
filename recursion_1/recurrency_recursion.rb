@@ -91,6 +91,8 @@ end
 # p search_bst n1, 2
 
 <<-Doc
+Pascal's triangle II
+
 In Pascal's triangle, each number is the sum of the two numbers directly above it as shown:
 
 Input: rowIndex = 3
