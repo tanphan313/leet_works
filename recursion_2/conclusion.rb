@@ -134,6 +134,9 @@ def letter_combinations digits
     x.join("")
   end
 end
+
+BACKTRACKING
+
 Doc
 
 def letter_combinations(n)

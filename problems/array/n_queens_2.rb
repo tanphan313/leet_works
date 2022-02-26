@@ -20,6 +20,9 @@ A queen can attack another if :
 . they are on the same line : r1 = r2
 . they are on the same column : c1 = c2
 . they are on the same diagonal : r1-c1 = r2-c2 or r1+c1 = r2+c2
+
+BACKTRACKING
+
 Doc
 
 # @param {Integer} n
