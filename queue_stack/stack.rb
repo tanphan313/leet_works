@@ -56,15 +56,13 @@ def is_valid s
   stack == []
 end
 
-COUNTER = {
-  ')'=> '(',
-  '{'=> '{',
-  ']'=> '[',
-}
-
 def counter? second, first
+  # Return false if second is an opening paren
+  return false if OPENING_PARENS.include? second
   MATCHER[first] != second
 end
+
+OPENING_PARENS = %w|( [ {|
 
 MATCHER = {
   '('=> ')',
