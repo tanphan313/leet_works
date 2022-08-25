@@ -190,10 +190,10 @@ def num_islands(grid)
       # Just evaluate nodes whose value is equal to 1
       if visited[row][col] == false && val == "1"
         # stack
-        #dfs({row: row, col: col}, grid, visited)
+        dfs({row: row, col: col}, grid, visited)
 
         # recursion
-        dfs_recursion({row: row, col: col}, grid, visited)
+        # dfs_recursion({row: row, col: col}, grid, visited)
 
         # Increase result after finish one dfs
         result += 1
