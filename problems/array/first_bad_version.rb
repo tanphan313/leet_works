@@ -15,6 +15,8 @@ call isBadVersion(3) -> false
 call isBadVersion(5) -> true
 call isBadVersion(4) -> true
 Then 4 is the first bad version.
+
+BINARY SEARCH
 Doc
 
 # The is_bad_version API is already defined for you.
