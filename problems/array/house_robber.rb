@@ -40,6 +40,8 @@ Suy ra ta co ket qua:
 value = Max(nums[0] + rob(nums[2..nums.size]), nums[1..nums.size])
 
 https://leetcode.com/problems/house-robber/discuss/156523/From-good-to-great.-How-to-approach-most-of-DP-problems.
+
+DYNAMIC PROGRAMMING
 Doc
 
 # @param {Integer[]} nums

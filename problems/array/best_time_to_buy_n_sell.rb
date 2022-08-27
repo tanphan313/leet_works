@@ -14,6 +14,8 @@ Note that buying on day 2 and selling on day 1 is not allowed because you must b
 Input: prices = [7,6,4,3,1]
 Output: 0
 Explanation: In this case, no transactions are done and the max profit = 0.
+
+DYNAMIC PROGRAMMING
 Doc
 
 # @param {Integer[]} prices
@@ -58,6 +60,7 @@ Doc
 # @return {Integer}
 <<-Doc
 This solution is more flexible
+TWO POINTERS
 def max_profit_2 prices
   l, r = 0, 1
   profit = 0

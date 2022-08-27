@@ -40,6 +40,8 @@ Vòng 2: i = 1, j chạy từ 2 đến nums.size
 cứ thế ra được dãy rs hoàn chỉnh, lấy rs.max 
 
 độ phức tạp O(n^2)
+
+DYNAMIC PROGRAMMING
 Doc
 
 # DP approach
