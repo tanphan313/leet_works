@@ -13,25 +13,25 @@ Doc
 # @param {ListNode} head
 # @return {Boolean}
 # Using space O(n)
-def is_palindrome head
-  support_arr = []
-  current = head
-  while current
-      support_arr.push current.val
-      current = current.next
-  end
-
-  left = 0
-  right = support_arr.size - 1
-  while left <= right
-    return false unless support_arr[left] == support_arr[right]
-
-    left += 1
-    right -= 1
-  end
-
-  true
-end
+# def is_palindrome head
+#   support_arr = []
+#   current = head
+#   while current
+#       support_arr.push current.val
+#       current = current.next
+#   end
+#
+#   left = 0
+#   right = support_arr.size - 1
+#   while left <= right
+#     return false unless support_arr[left] == support_arr[right]
+#
+#     left += 1
+#     right -= 1
+#   end
+#
+#   true
+# end
 
 # half-reversed list solution
 # Cut the list into 2 parts

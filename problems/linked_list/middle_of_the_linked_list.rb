@@ -23,16 +23,16 @@ end
 # @return {ListNode}
 def middle_node head
   # Dùng 2 pointers, 1 cái đi với step = 1, 1 cái đi với step = 2, khi cái đi chậm đến giữa thì cái đi nhanh đến cuối. thế là lấy được giữa
-  slow = ListNode.new 0, head
-  fast = ListNode.new 0, head
+  slow = head
+  fast = head
 
   while true
-    break if fast.next == nil || fast.next.next == nil
-    slow.next = slow.next.next
-    fast.next = fast.next.next.next
+    break if fast == nil || fast.next == nil
+    slow = slow.next
+    fast = fast.next.next
   end
 
-  slow.next
+  slow
 end
 
 node6 = ListNode.new(6, nil)
