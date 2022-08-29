@@ -152,13 +152,13 @@ def remove_num(row, col, board)
 end
 
 def sudoku_is_safe? row, col, board, num
-  (0...9).each do |i|
+  (0...8).each do |i|
     return false if board[row][i] != '.' && board[row][i] == num # check row
     return false if board[i][col] != '.' && board[i][col] == num # check col
     return false if board[3 * (row / 3) + i / 3][3 * (col / 3) + i % 3] != '.' && board[3 * (row / 3) + i / 3][3 * (col / 3) + i % 3] == num # check 3 * 3 block
   end
 
-  row_safe?(row, board, num) && col_safe?(col, board, num) && box_safe?(row, col, board, num)
+  # row_safe?(row, board, num) && col_safe?(col, board, num) && box_safe?(row, col, board, num)
 end
 
 def row_safe? row, board, num
