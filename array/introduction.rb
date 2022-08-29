@@ -62,6 +62,9 @@ After sorting, it becomes [0,1,9,16,100].
 
 Input: nums = [-7,-3,2,3,11]
 Output: [4,9,9,49,121]
+
+TWO POINTERS
+O(n)
 Doc
 
 # Do neu co so 0, n se o middle va n se la nho nhat, binh phuong se giam dan khi di tu ngoai vao trong
