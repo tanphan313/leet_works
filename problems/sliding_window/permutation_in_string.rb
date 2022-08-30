@@ -13,6 +13,9 @@ Output: false
 Input: s1 = "abc", s2 = "eidbcaooo"
 Output: true
 Explanation: s2 contains one permutation of s1 ("bca").
+
+SLIDING WINDOW
+TWO POINTERS
 Doc
 
 # @param {String} s1
