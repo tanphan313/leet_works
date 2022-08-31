@@ -81,6 +81,7 @@ end
 
 # @param {Character[][]} grid
 # @return {Integer}
+# BFS
 def num_islands grid
   heigh = grid.size
   return 0 if heigh == 0

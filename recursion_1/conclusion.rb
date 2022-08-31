@@ -4,6 +4,8 @@ Input: l1 = [1,2,4], l2 = [1,3,4]
 Output: [1,1,2,3,4,4]
 
 Both l1 and l2 are sorted in non-decreasing order.
+
+LINKED LIST
 Doc
 
 # Definition for singly-linked list.

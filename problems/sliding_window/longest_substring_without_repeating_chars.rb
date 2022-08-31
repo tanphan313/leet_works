@@ -11,10 +11,14 @@ Explanation: The answer is "b", with the length of 1.
 
 HASH TABLE
 SLIDING WINDOW
+
+Try to use Hash table
+https://www.code-recipe.com/post/longest-substring-without-repeating-characters
 Doc
 
 # @param {String} s
 # @return {Integer}
+# Use Array and Sliding Window
 def length_of_longest_substring(s)
   return 0 if s == ""
   result = 0
@@ -61,4 +65,38 @@ def start_new_window? left, right, chars
   chars[left..right].include?(chars[right + 1])
 end
 
-p length_of_longest_substring ""
+# Use Hashtable and Sliding Window
+def length_of_longest_substring_2(s)
+  return 0 if s == ""
+  result = 0
+  chars = s.chars
+  hash = Hash.new
+  left, right = 0, 0
+  hash[chars[right]] = right
+  hash[chars[left]] = left
+
+  while right < chars.size
+    result = [right - left + 1, result].max
+
+    if hash.has_key?(chars[right + 1]) && left != right
+      # Process the window
+      hash.delete(chars[left])
+      left += 1
+    elsif !hash.has_key?(chars[right + 1])
+      # Expand the window
+      right += 1
+    else
+      # Move the window
+      right += 1
+      left += 1
+    end
+
+    # Update hash
+    hash[chars[right]] = right
+    hash[chars[left]] = left
+  end
+
+  result
+end
+
+p length_of_longest_substring_2 "bbbb"
