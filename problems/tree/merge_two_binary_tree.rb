@@ -10,7 +10,7 @@ Note: The merging process must start from the root nodes of both trees.
 Input: root1 = [1,3,2,5], root2 = [2,1,3,null,4,null,7]
 Output: [3,4,5,5,4,null,7]
 
-DFS 
+DFS RECURSION 
 BINARY TREE
 Doc
 
@@ -27,5 +27,17 @@ end
 # @param {TreeNode} root2
 # @return {TreeNode}
 def merge_trees(root1, root2)
+  dfs root1, root2
+end
 
+def dfs node1, node2
+  return nil if node1 == nil && node2 == nil
+
+  node = TreeNode.new
+  node.val = node1&.val.to_i + node2&.val.to_i
+
+  node.left = dfs(node1&.left, node2&.left)
+  node.right = dfs(node1&.right, node2&.right)
+
+  node
 end
