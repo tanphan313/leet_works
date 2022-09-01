@@ -33,9 +33,7 @@ def remove_elements(head, val)
 
   while point != nil
     if point.next && point.next.val == val
-      new_next = point.next.next
-      point.next.next = nil
-      point.next = new_next
+      point.next = point.next.next
       next
     end
 
