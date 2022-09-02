@@ -38,6 +38,8 @@ Output: true
 
 Input: "([)]"
 Output: false
+
+STACK
 DOC
 
 def is_valid s

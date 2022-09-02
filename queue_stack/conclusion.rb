@@ -231,6 +231,8 @@ The distance between two adjacent cells is 1.
 
 Input: mat = [[0,0,0],[0,1,0],[1,1,1]]
 Output: [[0,0,0],[0,1,0],[1,2,1]]
+
+DYNAMIC PROGRAMMING
 Doc
 
 # @param {Integer[][]} mat
@@ -266,6 +268,8 @@ def distance root, grid
   while queue != []
     size = queue.size
 
+    # Quét hết 1 vòng 4 node xung quanh, nếu full là 1 thì cộng step lên 1
+    # có 1 node = 0 thì return step luôn
     (0..(size - 1)).each do |_i|
       cur = queue.shift
       row = cur[:row]
