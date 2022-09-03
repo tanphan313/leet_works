@@ -34,78 +34,79 @@ Bài này sẽ ko chạy bfs bắt đầu từ node nào hết, mà chạy bắt
 BFS
 Doc
 
-  # @param {Integer[][]} grid
-  # @return {Integer}
-  def oranges_rotting(grid)
-    fresh_count = 0
-    rotten = []
-    heigh = grid.size
-    length = grid[0].size
+# @param {Integer[][]} grid
+# @return {Integer}
+def oranges_rotting(grid)
+  fresh_count = 0
+  rotten = []
+  heigh = grid.size
+  length = grid[0].size
 
-    visited = []
-    grid.each{ |_val| visited << Array.new(length, false)}
+  visited = []
+  grid.each{ |_val| visited << Array.new(length, false)}
 
-    grid.each_with_index do |sub_arr, row|
-      sub_arr.each_with_index do |val, col|
-        if val == 2
-          rotten << {row: row, col: col}
-        elsif val == 1
-          fresh_count += 1
-        end
+  grid.each_with_index do |sub_arr, row|
+    sub_arr.each_with_index do |val, col|
+      if val == 2
+        rotten << {row: row, col: col}
+      elsif val == 1
+        fresh_count += 1
       end
     end
-
-    return 0 if fresh_count == 0
-
-    level, fresh_count = bfs(rotten, grid, visited, heigh, length, fresh_count)
-
-    return -1 if fresh_count > 0
-    # Ở level 1, tất cả các quả thối từ ban đầu sẽ ko tính là bị lây truyền
-    level - 1
   end
 
-  def bfs rotten, grid, visited, heigh, length, fresh_count
-    queue = []
-    level = 0
+  return 0 if fresh_count == 0
 
-    rotten.each do |r|
-      queue << r
-    end
+  level, fresh_count = bfs(rotten, grid, visited, heigh, length, fresh_count)
 
-    while queue != []
-      # Mỗi 1 lần duyện queue với size của queue là đi hết 1 level trong cây
-      # Cây này có thể add tất cả những node đã duyệt rồi, nhưng trong loop sẽ k duyệt lại nữa, vì vậy k cần tăng step nếu như chỉ đi qua những node đã duyệt
-      spread = false
-      0.upto(queue.size - 1).each do |_i|
-        cur = queue.shift
-        row = cur[:row]
-        col = cur[:col]
+  return -1 if fresh_count > 0
+  # Ở level 1, tất cả các quả thối từ ban đầu sẽ ko tính là bị lây truyền
+  level - 1
+end
 
-        next if visited[row][col]
+def bfs rotten, grid, visited, heigh, length, fresh_count
+  queue = []
+  level = 0
 
-        visited[row][col] = true
-        spread = true
+  rotten.each do |r|
+    queue << r
+  end
 
-        # Nếu quả hiện tại đang tươi
-        if grid[row][col] == 1
-          # Sau đó update quả hiện tại thành thối
-          grid[row][col] = 2
-          fresh_count -= 1
-        end
+  while queue != []
+    # Mỗi 1 lần duyện queue với size của queue là đi hết 1 level trong cây
 
-        # Thối rồi thì đi lan tỏa ra xung quanh xem tk nào chưa đc thăm
-        # Không thêm những grid trống để ko làm tăng bề rộng của 1 level, đỡ phải duyệt nhiều
-        queue << {row: row - 1, col: col} unless row == 0 || grid[row - 1][col] == 0  # UP
-        queue << {row: row + 1, col: col} unless row + 1 == heigh || grid[row + 1][col] == 0 # Down
-        queue << {row: row, col: col - 1} unless col == 0 || grid[row][col - 1] == 0 # Left
-        queue << {row: row, col: col + 1} unless col + 1 == length || grid[row][col + 1] == 0 # Right
+    0.upto(queue.size - 1).each do |_i|
+      cur = queue.shift
+      row = cur[:row]
+      col = cur[:col]
+
+      next if visited[row][col]
+
+      visited[row][col] = true
+
+      # Nếu quả hiện tại đang tươi
+      if grid[row][col] == 1
+        # Sau đó update quả hiện tại thành thối
+        grid[row][col] = 2
+        fresh_count -= 1
       end
 
-      level += 1 if spread
+      # Thối rồi thì đi lan tỏa ra xung quanh xem tk nào chưa đc thăm
+      queue << {row: row - 1, col: col} unless row == 0 || invalid_neighbor?(row - 1, col, grid, queue, visited)  # UP
+      queue << {row: row + 1, col: col} unless row + 1 == heigh || invalid_neighbor?(row + 1, col, grid, queue, visited) # Down
+      queue << {row: row, col: col - 1} unless col == 0 || invalid_neighbor?(row, col - 1, grid, queue, visited) # Left
+      queue << {row: row, col: col + 1} unless col + 1 == length || invalid_neighbor?(row, col + 1, grid, queue, visited) # Right
     end
 
-    return level, fresh_count
+    level += 1
   end
+
+  return level, fresh_count
+end
+
+def invalid_neighbor? row, col, grid, queue, visited
+  grid[row][col] == 0 || queue.include?({row: row, col: col}) || visited[row][col]
+end
 
 # p oranges_rotting [
 #   [2,1,1],
