@@ -194,6 +194,8 @@ Output:
   [1,3],
   [1,4],
 ]
+
+BACKTRACKING
 Doc
 
 # @param {Integer} n
