@@ -46,6 +46,8 @@ Find the node in the BST that the node's value equals val and return the subtree
 
 Input: root = [4,2,7,1,3], val = 2
 Output: [2,1,3]
+
+DFS
 Doc
 
 # Definition for a binary tree node.
