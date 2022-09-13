@@ -8,6 +8,7 @@ class TreeNode
 end
 
 # Using recursion, root-left-right
+# PREORDER
 def preorder_traversal root
   result = []
 
