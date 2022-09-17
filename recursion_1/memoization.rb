@@ -1,3 +1,7 @@
+<<-Doc
+DYNAMIC PROGRAMMING
+Doc
+
 # @param {Integer} n
 # @return {Integer}
 @result = Hash.new
@@ -8,6 +12,18 @@ def fib n
   @result[n] ||= fib(n-1) + fib(n-2)
 end
 
+def fib_2 n
+  h = Hash.new do |hash, key|
+    hash[key] = hash[key - 1] + hash[key - 2]
+  end.tap do |hash|
+    hash[0] = 0
+    hash[1] = 1
+    hash[2] = 2
+    hash[3] = 3
+  end
+
+  h[n]
+end
 
 <<-Doc
 Input: n = 3
@@ -18,6 +34,8 @@ Explanation: There are three ways to climb to the top.
 3. 2 steps + 1 step
 
 back to fibonaci, num_step to reach n = num_step to reach (n-1) and (n-2)
+
+DYNAMIC PROGRAMMING
 Doc
 
 # @param {Integer} n
