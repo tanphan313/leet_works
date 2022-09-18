@@ -7,6 +7,8 @@ Each solution contains a distinct board configuration of the n-queens' placement
 
 Input: n = 4
 Output: [[".Q..","...Q","Q...","..Q."],["..Q.","Q...","...Q",".Q.."]]
+
+BACKTRACKING
 Doc
 
 # @param {Integer} n
