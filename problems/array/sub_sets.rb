@@ -10,7 +10,7 @@ Input: nums = [0]
 Output: [[],[0]]
 
 BACKTRACKING
-
+BIT MANIPULATION
 Doc
 
 # @param {Integer[]} nums

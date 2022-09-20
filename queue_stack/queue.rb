@@ -358,6 +358,8 @@ d[n] = min(d[n - i * i]) + 1, where d[n] is the least number of square numbers, 
 d[0] = 0
 d[1] = min(d[1-1*1]) + 1 = min(d[0]) + 1 = 1
 d[4] = min(d[4-1*1], d[4-2*2]) + 1 = min(d[3], d[0]) + 1 = d[0] + 1 = 1
+
+DYNAMIC PROGRAMMING
 Doc
 
 def num_squares_dp n
