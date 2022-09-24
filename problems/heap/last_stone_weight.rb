@@ -98,13 +98,14 @@ class PriorityQueue
     # stop if we reach the bottom of the tree
     return if child_index > @elements.size - 1
 
-    # đổi chỗ với child lớn nhất để đảm bảo cân bằng luôn, node hiện tại sẽ về đúng vị trí
     not_the_last_element = child_index < @elements.size - 1
     left_element = @elements[child_index]
     right_element = @elements[child_index + 1]
+
+    # Chọn ra 1 child lớn nhất để compare với parent
     child_index += 1 if not_the_last_element && right_element > left_element
 
-    # there is no need to continue if the parent element is already bigger
+    # there is no need to continue if the parent element is already bigger the its children
     # then its children
     return if @elements[index] >= @elements[child_index]
 
