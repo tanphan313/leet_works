@@ -13,6 +13,8 @@ Output:
 [1,7],
 [2,6]
 ]
+
+BACKTRACKING
 Doc
 
 # @param {Integer[]} candidates
