@@ -39,11 +39,11 @@ To go from pre -> a -> b -> c to pre -> b -> a -> c, we need to change those thr
 Here I chain the assignments, pretty much directly saying "pre points to b, which points to a, which points to c".
 Doc
 class ListNode
-    attr_accessor :val, :next
-    def initialize(val = 0, _next = nil)
-        @val = val
-        @next = _next
-    end
+  attr_accessor :val, :next
+  def initialize(val = 0, _next = nil)
+    @val = val
+    @next = _next
+  end
 end
 
 def swap_pairs head
