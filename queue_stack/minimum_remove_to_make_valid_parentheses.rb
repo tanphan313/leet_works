@@ -68,20 +68,25 @@ end
 
 def min_remove_to_make_valid_2(s)
   stack = []
+  i = 0
+  size = s.length
 
-  s.chars.each_with_index do |char, index|
-    if char == "("
+  # faster than each_with_index
+  while i < size
+    if s[i] == "("
       # will be removed if there is no ")"
-      stack << index
-    elsif char == ")"
+      stack << i
+    elsif s[i] == ")"
       if stack != []
         # get valid parentheses, so pop stack
         stack.pop
       else
         # index should be removed
-        s[index] = " "
+        s[i] = " "
       end
     end
+
+    i += 1
   end
 
   while stack != []
