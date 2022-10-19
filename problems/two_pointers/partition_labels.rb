@@ -48,6 +48,7 @@ Doc
 def partition_labels(s)
   hash_support = Hash.new{|hash, key| hash[key] = []}
 
+  # Tạo hash để lưu index range của từng char, sau đó tính overlapping là ra được số lượng partitions
   s.split("").each_with_index do |char, index|
     if hash_support[char] == []
       hash_support[char][0] = index
