@@ -26,18 +26,33 @@ end
 # @param {Integer} target_sum
 # @return {Integer[][]}
 def path_sum(root, target_sum)
-  rs = []
+  return [] unless root
 
+  result = []
+
+  path_sum_backtrack result, root, target_sum - root.val, [root.val]
+
+  result
 end
 
-def find_path_sum root, target_sum, result
-  if root.left.nil? && root.right.nil? && root.val == sum
-    result << root.val
+def path_sum_backtrack result, root, target_sum, path
+  if root.left == nil && root.right == nil && target_sum == 0
+    result.push path.dup
+  else
+    if root.left
+      path.push root.left.val
 
-    return result
+      path_sum_backtrack result, root.left, target_sum - root.left.val, path
+
+      path.pop
+    end
+
+    if root.right
+      path.push root.right.val
+
+      path_sum_backtrack result, root.right, target_sum - root.right.val, path
+
+      path.pop
+    end
   end
-
-  result << find_path_sum(root.left, target_sum - root.val, result) if root.left
-
-  result.flatten
 end
